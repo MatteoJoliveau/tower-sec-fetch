@@ -2,8 +2,8 @@
 
 [![CI](https://github.com/MatteoJoliveau/tower-sec-fetch/actions/workflows/ci.yml/badge.svg)](https://github.com/MatteoJoliveau/tower-sec-fetch/actions/workflows/ci.yml)
 [![Release](https://github.com/MatteoJoliveau/tower-sec-fetch/actions/workflows/release.yml/badge.svg)](https://github.com/MatteoJoliveau/tower-sec-fetch/actions/workflows/release.yml)
-![docs.rs build](https://img.shields.io/docsrs/tower-sec-fetch)
-![Crates.io Version](https://img.shields.io/crates/v/tower-sec-fetch)
+[![docs.rs build](https://img.shields.io/docsrs/tower-sec-fetch)](https://docs.rs/tower-sec-fetch)
+[![Crates.io Version](https://img.shields.io/crates/v/tower-sec-fetch)](https://crates.io/crates/tower-sec-fetch)
 
 **Cookieless CSRF protection library**
 
