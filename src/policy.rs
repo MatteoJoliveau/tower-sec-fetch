@@ -2,8 +2,7 @@ use http::{HeaderValue, Method};
 
 use crate::header;
 
-#[derive(Copy, Clone)]
-#[derive(Default)]
+#[derive(Copy, Clone, Default)]
 pub struct Policy {
     reject_missing_metadata: bool,
     allow_safe_methods: bool,
@@ -51,7 +50,6 @@ impl Policy {
         false
     }
 }
-
 
 /// Allows customizing the behaviour of the default evaluation policy
 pub struct PolicyBuilder {

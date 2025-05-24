@@ -16,9 +16,7 @@ tower = "0.5.2"
 [dev-dependencies]
 assert2 = "0.3.15"
 axum = { version = "0.8.4", features = ["macros"] }
-maud = { version = "0.27.0", features = ["axum"] }
 tokio = { version = "1.45.0", default-features = false, features = ["macros", "rt-multi-thread", "fs"] }
-tokio-util = { version = "0.7.15", features = ["io"] }
 tower-test = "0.4.0"
 
 [package.metadata.docs.rs]
