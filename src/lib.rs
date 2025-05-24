@@ -1,17 +1,17 @@
 //! # Cookieless CSRF protection library
 //!
-//! This crate provides a [Tower] middleware that implements CSRF protection by validation the [Fetch Metadata] headers of the incoming HTTP request. It does not require cookies, or signing keys, or tokens.
+//! This crate provides a [Tower] middleware that implements [Cross-Site-Request-Forgery] protection by validating the [Fetch Metadata] headers of the incoming HTTP request. It does not require cookies, or signing keys, or tokens.
 //!
 //! If you're looking for a classic CSRF cookie implementation, try [tower-surf] instead.
 //!
 //! ## Overview
 //!
-//! For a more in-depth explanation of the problem CSRF is trying to solve, and why using signed cookies is not the best solution, refer to [this excellent writeup](https://github.com/golang/go/issues/73626) by [Filippo Valsorda](https://filippo.io).
+//! For a more in-depth explanation of the problem CSRF protection is trying to solve, and why using signed cookies is not always the best solution, refer to [this excellent writeup](https://github.com/golang/go/issues/73626) by [Filippo Valsorda](https://filippo.io).
 //!
 //! In short, this crate allows to protect web resources from cross-site inclusion and abuse by validating the [Fetch Metadata] headers and ensuring that only "safe" cross-site requests are allowed. In this context, "safe" means:
 //!
-//! - the request comes from the same origin (the site's exact scheme, host, and port), same site (any subdomain of the current domain), or are user-initiated (e.g. clicking on a bookmark, directly entering the website's address...)
-//! - the request is a regular GET request coming from a navigation event (e.g. clicking on a link on another website), as long as it's not being embedded in elements like `<object>` or `<iframe>`.
+//! - the request comes from the same origin (the site's exact scheme, host, and port), same site (any subdomain of the current domain), or are user-initiated (e.g. clicking on a bookmark, directly entering the website's address), OR...
+//! - the request is a simple GET request coming from a navigation event (e.g. clicking on a link on another website), as long as it's not being embedded in elements like `<object>` or `<iframe>`.
 //!
 //! <div class="warning">
 //!
@@ -124,6 +124,7 @@
 //! ```
 //!
 //! [Tower]: https://docs.rs/tower
+//! [Cross-Site-Request-Forgery]: https://developer.mozilla.org/en-US/docs/Web/Security/Attacks/CSRF
 //! [Fetch Metadata]: https://developer.mozilla.org/en-US/docs/Glossary/Fetch_metadata_request_header
 //! [tower-surf]: https://docs.rs/tower-surf
 //! [Axum]: https://docs.rs/axum
