@@ -4,9 +4,10 @@ version = "0.1.0"
 edition = "2024"
 description = "Rust Tower middleware to validate an HTTP request's Fetch Metadata"
 authors = ["Matteo Joliveau <oss@matteojoliveau.com>"]
-repository = "https://codeberg.org/matteojoliveau/tower-sec-fetch"
+repository = "https://github.com/MatteoJoliveau/tower-sec-fetch"
 license = "MIT OR Apache-2.0"
 documentation = "https://docs.rs/tower-sec-fetch"
+keywords = ["tower", "csrf", "http", "middleware", "axum"]
 
 [dependencies]
 futures = { version = "0.3.31", default-features = false, features = ["std"] }
@@ -21,3 +22,5 @@ tower-test = "0.4.0"
 
 [package.metadata.docs.rs]
 all-features = true
+rustdoc-args = ["--cfg", "docsrs"]
+
