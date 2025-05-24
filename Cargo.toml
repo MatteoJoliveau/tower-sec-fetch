@@ -1,6 +1,6 @@
 [package]
 name = "tower-sec-fetch"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2024"
 description = "Rust Tower middleware to validate an HTTP request's Fetch Metadata"
 authors = ["Matteo Joliveau <oss@matteojoliveau.com>"]
