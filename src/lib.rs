@@ -305,7 +305,7 @@ where
             tracing::debug!(
                 method = %request.method(),
                 path = request.uri().path(),
-                "request",
+                "request denied",
             );
 
             Either::Right(future::ready(Ok(http::Response::builder()
