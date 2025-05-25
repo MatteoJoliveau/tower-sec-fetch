@@ -18,6 +18,13 @@ impl Policy {
                 [Method::GET, Method::HEAD, Method::OPTIONS],
             )
         {
+            #[cfg(feature = "tracing")]
+            tracing::trace!(
+                method = %request.method(),
+                path = request.uri().path(),
+                "request uses a safe method: allowed",
+            );
+
             return true;
         }
 
@@ -28,12 +35,27 @@ impl Policy {
         let sec_fetch = zip3(sec_fetch_site, sec_fetch_mode, sec_fetch_dest);
 
         let Some((sec_fetch_site, sec_fetch_mode, sec_fetch_dest)) = sec_fetch else {
+            #[cfg(feature = "tracing")]
+            tracing::trace!(
+                method = %request.method(),
+                path = request.uri().path(),
+                "request is missing fetch metadata: {}",
+                if self.reject_missing_metadata { "denied" } else { "allowed" },
+            );
+
             // Fetch metadata headers are missing.
             // Either the request doesn't come from a browser, or the browser is too old.
             return !self.reject_missing_metadata;
         };
 
         if header_in(sec_fetch_site, ["same-origin", "same-site", "none"]) {
+            #[cfg(feature = "tracing")]
+            tracing::trace!(
+                method = %request.method(),
+                path = request.uri().path(),
+                "request is same-site or user initiated: allowed",
+            );
+
             // request is same-site or user initiated
             return true;
         }
@@ -42,9 +64,23 @@ impl Policy {
             && request.method() == Method::GET
             && !header_in(sec_fetch_dest, ["object", "embed"])
         {
+            #[cfg(feature = "tracing")]
+            tracing::trace!(
+                method = %request.method(),
+                path = request.uri().path(),
+                "request is a non-embed navigation: allowed",
+            );
+
             // request is a regular navigation event and is not being embedded
             return true;
         }
+
+        #[cfg(feature = "tracing")]
+        tracing::trace!(
+            method = %request.method(),
+            path = request.uri().path(),
+            "request denied",
+        );
 
         // request is denied
         false

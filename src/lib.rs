@@ -282,8 +282,32 @@ where
     }
 
     fn call(&mut self, request: http::Request<ReqB>) -> Self::Future {
-        let mut allow = |request| Either::Left(self.inner.call(request));
+        #[cfg(feature = "tracing")]
+        tracing::debug!(
+            method = %request.method(),
+            path = request.uri().path(),
+            "processing request",
+        );
+
+        let mut allow = |request: http::Request<ReqB>| {
+            #[cfg(feature = "tracing")]
+            tracing::debug!(
+                method = %request.method(),
+                path = request.uri().path(),
+                "request allowed",
+            );
+
+            Either::Left(self.inner.call(request))
+        };
+
         let deny = || {
+            #[cfg(feature = "tracing")]
+            tracing::debug!(
+                method = %request.method(),
+                path = request.uri().path(),
+                "request",
+            );
+
             Either::Right(future::ready(Ok(http::Response::builder()
                 .status(StatusCode::FORBIDDEN)
                 .body(ResB::default())
