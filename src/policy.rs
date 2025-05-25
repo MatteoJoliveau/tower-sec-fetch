@@ -62,7 +62,7 @@ impl Policy {
 
         if sec_fetch_mode == "navigate"
             && request.method() == Method::GET
-            && !header_in(sec_fetch_dest, ["object", "embed"])
+            && header_in(sec_fetch_dest, ["empty", "document"])
         {
             #[cfg(feature = "tracing")]
             tracing::trace!(

@@ -423,7 +423,7 @@ mod tests {
     }
 
     #[tokio::test]
-    async fn it_disallows_cross_origin_requests() {
+    async fn it_rejects_cross_origin_requests() {
         let request = request!(site => "cross-site", mode => "cors", dest => "empty");
 
         assert_request!(request, |response: http::Response<()>| {
@@ -454,6 +454,15 @@ mod tests {
 
         assert_request!(request, |response: http::Response<()>| {
             check!(response.status().is_success());
+        });
+    }
+
+    #[tokio::test]
+    async fn it_rejects_navigation_requests_resulting_from_embedding() {
+        let request = request!(site => "cross-site", mode => "navigate", dest => "iframe");
+
+        assert_request!(request, |response: http::Response<()>| {
+            check!(response.status() == StatusCode::FORBIDDEN);
         });
     }
 
