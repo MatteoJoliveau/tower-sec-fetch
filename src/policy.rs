@@ -6,6 +6,7 @@ use crate::header;
 pub struct Policy {
     reject_missing_metadata: bool,
     allow_safe_methods: bool,
+    allow_same_site: bool,
 }
 
 impl Policy {
@@ -48,15 +49,27 @@ impl Policy {
             return !self.reject_missing_metadata;
         };
 
-        if header_in(sec_fetch_site, ["same-origin", "same-site", "none"]) {
+        if header_in(sec_fetch_site, ["same-origin", "none"]) {
             #[cfg(feature = "tracing")]
             tracing::trace!(
                 method = %request.method(),
                 path = request.uri().path(),
-                "request is same-site or user initiated: allowed",
+                "request is same-origin or user initiated: allowed",
             );
 
-            // request is same-site or user initiated
+            // request is same-origin or user initiated
+            return true;
+        }
+
+        if self.allow_same_site && header_in(sec_fetch_site, ["same-site"]) {
+            #[cfg(feature = "tracing")]
+            tracing::trace!(
+                method = %request.method(),
+                path = request.uri().path(),
+                "request is same-site: allowed",
+            );
+
+            // request is same-site
             return true;
         }
 
@@ -91,6 +104,7 @@ impl Policy {
 pub struct PolicyBuilder {
     reject_missing_metadata: bool,
     allow_safe_methods: bool,
+    allow_same_site: bool,
 }
 
 impl PolicyBuilder {
@@ -98,6 +112,7 @@ impl PolicyBuilder {
         Self {
             reject_missing_metadata: false,
             allow_safe_methods: false,
+            allow_same_site: false,
         }
     }
 
@@ -114,10 +129,17 @@ impl PolicyBuilder {
         self
     }
 
+    /// Allow requests from the same site (e.g. different subdomain)
+    pub fn allow_same_site(&mut self) -> &mut Self {
+        self.allow_same_site = true;
+        self
+    }
+
     pub(crate) fn build(self) -> Policy {
         Policy {
             reject_missing_metadata: self.reject_missing_metadata,
             allow_safe_methods: self.allow_safe_methods,
+            allow_same_site: self.allow_same_site,
         }
     }
 }
