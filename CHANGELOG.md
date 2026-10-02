@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.3](https://github.com/MatteoJoliveau/tower-sec-fetch/compare/v0.1.2...v0.1.3) - 2026-10-02
+
+### Added
+
+- reject same-site requests by default
+
+### Other
+
+- add cargo audit
+- cargo update
+- group dependabot updates together
+- bump rust to 1.95
+- nix flake update
+- create dependabot.yml
+
 ## [0.1.2](https://github.com/MatteoJoliveau/tower-sec-fetch/compare/v0.1.1...v0.1.2) - 2025-05-25
 
 ### Added
