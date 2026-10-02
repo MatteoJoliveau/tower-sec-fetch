@@ -29,6 +29,7 @@
               packages = with pkgs; [
                 bacon
                 cargo-all-features
+                cargo-audit
                 cargo-autoinherit
                 cargo-deny
                 cargo-nextest
